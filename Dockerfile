@@ -7,12 +7,12 @@ WORKDIR /tmp
 RUN apt-get update -y && \
     apt-get install -y nginx
 
-ADD config/nginx.conf /opt/etc/nginx.conf
-ADD config/laravel /etc/nginx/sites-available/laravel
-RUN ln -s /etc/nginx/sites-available/laravel /etc/nginx/sites-enabled/laravel && \
-    rm /etc/nginx/sites-enabled/default
+ADD bootstrap/nginx.conf /opt/etc/nginx.conf
+RUN rm /etc/nginx/sites-enabled/default
+ADD bootstrap/default /etc/nginx/sites-available/default
+RUN ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 
-ADD config/nginx-start.sh /opt/bin/nginx-start.sh
+ADD bootstrap/nginx-start.sh /opt/bin/nginx-start.sh
 RUN chmod u=rwx /opt/bin/nginx-start.sh
 
 RUN mkdir -p /data
